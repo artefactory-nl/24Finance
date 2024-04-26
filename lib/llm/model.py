@@ -64,4 +64,16 @@ def make_impact_from_news(news_content, company_name, stock_position) -> str:
         trials = trials + 1
     return impact
 
-    
+def make_reasons_from_news(news_content, impact, company_name) -> str:    
+    # Ask the LLM 3 reasons why the news has the estimated impact
+    client = model_api_client()
+
+    fillers={
+        'news_content': news_content,
+        'impact': impact,
+        'company_name': company_name
+    }
+
+    prompt = create_reason_and_impact_prompt(fillers)
+    reasons = prompt_llm(client, prompt=prompt, role='').choices[0].message.content
+    return reasons
