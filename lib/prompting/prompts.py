@@ -9,9 +9,10 @@ class DeferredFString:
 def create_operational_countries_prompt(fillers: dict) -> str:
     template = DeferredFString(
         """
-        What are the countries in which {stock_id}, {description}, operates?
-        Return the answer as a python list of countries names only, no other text,
-        such as ['el1', 'el2',...].
+        What are the countries in which the traded company {stock_id} operates?
+        Return the answer as a python list of countries, names only, no other text,
+        such as ['country1', 'country2',...].
+        Use CAMEO codes to identify the countries.
         """
     )
     return template.fill(**fillers)
