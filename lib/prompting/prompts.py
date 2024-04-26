@@ -37,4 +37,12 @@ def create_news_x_stock_impact_prompt(fillers: dict) -> str:
     )
     return template.fill(**fillers)
 
-
+def create_reason_and_impact_prompt(fillers: dict) -> str:
+    template = DeferredFString(
+        """
+        You are a financial expert in trading. You read the following news article: "{news_content}"
+        
+        You know that this news article impacts your {company_name} stocks in a {impact} way. Give three reasons why your stocks are impacted as such. Only return the three reasons as a numbered list.
+        """
+    )
+    return template.fill(**fillers)
