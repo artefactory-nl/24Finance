@@ -1,4 +1,5 @@
 from openai import OpenAI
+from lib.prompting.prompts import create_operational_countries_prompt, create_news_x_stock_impact_prompt, create_reason_and_impact_prompt
 
 
 def model_api_client() -> object:
@@ -35,3 +36,44 @@ def prompt_llm(client: object, prompt: str = "", role: str = "", temperature: in
         model="mixtral-chat",
         temperature=temperature,
     )
+
+def make_impact_from_news(news_content, company_name, stock_position) -> str:
+    """ Return either "positive" or "negative" for impact """
+    client = model_api_client()
+
+    fillers={
+        'news_content': news_content,
+        'position': stock_position,
+        'company_name': company_name
+    }
+
+    prompt = create_news_x_stock_impact_prompt(fillers)
+
+    # try LLM prompt 5 times before giving up
+    trials = 0
+    correct = False
+    impact = "undetermined"
+    while (trials < 4) and not correct:
+        result = prompt_llm(client, prompt=prompt, role='').choices[0].message.content
+        if result.lower()[0:8] == "positive":
+            correct = True
+            impact = "positive"
+        elif result.lower()[0:8] == "negative":
+            correct = True
+            impact = "negative"
+        trials = trials + 1
+    return impact
+
+def make_reasons_from_news(news_content, impact, company_name) -> str:    
+    # Ask the LLM 3 reasons why the news has the estimated impact
+    client = model_api_client()
+
+    fillers={
+        'news_content': news_content,
+        'impact': impact,
+        'company_name': company_name
+    }
+
+    prompt = create_reason_and_impact_prompt(fillers)
+    reasons = prompt_llm(client, prompt=prompt, role='').choices[0].message.content
+    return reasons
