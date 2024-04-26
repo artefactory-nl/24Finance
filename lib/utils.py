@@ -1,5 +1,5 @@
 # Databricks notebook source
-
+from newspaper import article
 def extract_text_to_dataframe(df, url_column, output_column):
     for index, row in df.iterrows():
         url = row[url_column]
