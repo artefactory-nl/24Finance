@@ -39,7 +39,7 @@ def create_impact_prompt(fillers: dict) -> str:
     return template.fill(**fillers)
 
 
-def extract_operational_countries(client, row, role) -> list:
+def extract_operational_countries(row, role, client) -> list:
     """Extracts the operational countries of a company from the LLM model."""
     fillers = {
         'stock_name': row['company_name'],
