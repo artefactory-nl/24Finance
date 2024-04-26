@@ -10,8 +10,8 @@ if [ "$answer" = "y" ]; then
   pip install -r requirements-developer.txt
   python3 -m ipykernel install --user --name=artefact-hackathon-team-04
   conda install -c conda-forge --name artefact-hackathon-team-04 notebook -y
-  echo "Installing pre-commit..."
-  make install_precommit
+  # echo "Installing pre-commit..."
+  # make install_precommit
   echo "Installation complete!";
 else
   echo "Installation of conda env aborted!";
