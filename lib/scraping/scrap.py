@@ -16,3 +16,4 @@ def extract_text_to_dataframe(df, url_column, output_column):
             print(f"Error processing URL {url}: {str(e)}")
             df.at[index, output_column] = ""  # Assign an empty string or any default value if there's an error
     df[output_column] = df[output_column].apply(lambda x: json.dumps(x)).fillna("")
+    return df
