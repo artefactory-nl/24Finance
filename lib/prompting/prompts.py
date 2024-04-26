@@ -29,7 +29,6 @@ def create_news_summary_prompt(fillers: dict) -> str:
 def create_impact_prompt(fillers: dict) -> str:
     template = DeferredFString(
         """
-
         """
     )
     return template.fill(**fillers)
