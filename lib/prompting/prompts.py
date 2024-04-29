@@ -1,5 +1,10 @@
-from lib.llm.model import prompt_llm
-import ast
+# Description: This file contains the functions that create prompts for the different tasks in the project.
+#
+# The prompts are created using DeferredFString, which is a class that allows for the creation of a string template with placeholders that can be filled in later.
+# The prompts are then filled in with the necessary information using the fill method of the DeferredFString class.
+# The filled-in prompts are then returned as strings.
+#
+
 class DeferredFString:
     def __init__(self, template):
         self.template = template
@@ -9,18 +14,21 @@ class DeferredFString:
 
 
 def create_operational_countries_prompt(fillers: dict) -> str:
+    """Creates a prompt for extracting the operational countries of a company."""
     template = DeferredFString(
         """
-        What are the countries in which the company {stock_name}, traded in the trade market {trading_market} operates?
-        Return the answer as a python list of countries, names only, no other text,
-        such as ['country1', 'country2',...].
-        Use CAMEO codes to identify the countries.
+        You are a financial expert in trading.
+        I want you to list the countries in which the company {stock_name}, traded in the trade market {trading_market}, operates?
+        Return the answer as a list of country codes, no other text.
+        For example, if the company operates in country1 and country2, return it as ['country_code1', 'country_code2',...].
+        It'simportant that you return only the list.
         """
     )
     return template.fill(**fillers)
 
 
 def create_news_summary_prompt(fillers: dict) -> str:
+    """Creates a prompt for summarizing a news article."""
     template = DeferredFString(
         """
         I am providing you with the content of a news article. I need you to summarize it for me.
@@ -31,6 +39,7 @@ def create_news_summary_prompt(fillers: dict) -> str:
     return template.fill(**fillers)
 
 def create_news_x_stock_impact_prompt(fillers: dict) -> str:
+    """Creates a prompt for extracting the impact of a news article on a company's stocks."""
     template = DeferredFString(
         """
         You are a financial expert in trading. You read the following news article:
@@ -41,19 +50,8 @@ def create_news_x_stock_impact_prompt(fillers: dict) -> str:
     )
     return template.fill(**fillers)
 
-
-def extract_operational_countries(row, role, client) -> list:
-    """Extracts the operational countries of a company from the LLM model."""
-    fillers = {
-        'stock_name': row['company_name'],
-        'trading_market': row['trading_market'],
-        }
-    prompt = create_operational_countries_prompt(fillers)
-    countries = prompt_llm(client, prompt=prompt, role=role).choices[0].message.content
-    countries_list = ast.literal_eval(countries)
-    return countries_list
-
 def create_reason_and_impact_prompt(fillers: dict) -> str:
+    """Creates a prompt for extracting reasons for the impact of a news article on a company's stocks."""
     template = DeferredFString(
         """
         You are a financial expert in trading. You read the following news article: "{news_content}"

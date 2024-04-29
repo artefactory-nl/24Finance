@@ -1,5 +1,7 @@
 from openai import OpenAI
-
+import ast
+from lib.prompting.prompts import create_operational_countries_prompt, create_news_x_stock_impact_prompt, create_reason_and_impact_prompt
+from lib.utils import extract_list_from_text
 
 def model_api_client() -> object:
     """Returns an instance of the OpenAI API client."""
@@ -36,24 +38,59 @@ def prompt_llm(client: object, prompt: str = "", role: str = "", temperature: in
         temperature=temperature,
     )
 
-def make_impact_from_news(news_content, company_name, stock_position) -> str:
-    """ Return either "positive" or "negative" for impact """
-    client = model_api_client()
+def make_operational_countries(row:object, client:object) -> list:
+    """Extracts the operational countries of a company from the LLM model.
+    
+    Args:
+        row (dict): A dictionary containing the company name and trading market.
+        role (str): The role of the user.
+        client (object): An instance of the OpenAI API client.
+        
+    Returns:
+        list: A list of operational countries.
+    """
+    role = "Financial expert in trading."
+    fillers = {
+        'stock_name': row['company_name'],
+        'trading_market': row['trading_market'],
+        }
+    prompt = create_operational_countries_prompt(fillers)
+    max_attempts = 5
+    attempt = 0
+    while attempt < max_attempts:
+        attempt += 1
+        countries = prompt_llm(client, prompt=prompt, role=role).choices[0].message.content
+        try:
+            countries_list = extract_list_from_text(countries)
+            return countries_list
+        except:
+            pass
+    return []
 
+def make_impact_from_news(row: object, client: object) -> str:
+    """ Return either "positive" or "negative" for impact.
+    
+    Args:
+        news_content (str): The content of the news article.
+        company_name (str): The name of the company.
+        stock_position (str): The position of the stock. This can be "long" or "short".
+
+    Returns:
+        str: The impact of the news article on the company's stocks. This can be "positive" or "negative".
+    """
+    role = "Financial expert in trading."
     fillers={
-        'news_content': news_content,
-        'position': stock_position,
-        'company_name': company_name
+        'news_content': row['news_content'],
+        'position': row['stock_position'],
+        'company_name': row['company_name']
     }
 
     prompt = create_news_x_stock_impact_prompt(fillers)
-
-    # try LLM prompt 5 times before giving up
     trials = 0
     correct = False
     impact = "undetermined"
     while (trials < 4) and not correct:
-        result = prompt_llm(client, prompt=prompt, role='').choices[0].message.content
+        result = prompt_llm(client, prompt=prompt, role=role).choices[0].message.content
         if result.lower()[0:8] == "positive":
             correct = True
             impact = "positive"
@@ -63,79 +100,26 @@ def make_impact_from_news(news_content, company_name, stock_position) -> str:
         trials = trials + 1
     return impact
 
-def make_reasons_from_news(news_content, impact, company_name) -> str:    
-    # Ask the LLM 3 reasons why the news has the estimated impact
-    client = model_api_client()
+def make_reasons_from_news(row: object, client: object) -> str:    
+    """ Return three reasons for the impact.
 
+    The reasons should be returned as a numbered list.
+
+    Args:
+        news_content (str): The content of the news article.
+        impact (str): The impact of the news article on the company's stocks. This can be "positive" or "negative".
+        company_name (str): The name of the company.
+
+    Returns:
+        str: The three reasons for the impact of the news article on the company's stocks.    
+    """
+    role = "Financial expert in trading."
     fillers={
-        'news_content': news_content,
-        'impact': impact,
-        'company_name': company_name
+        'news_content': row['news_content'],
+        'impact': row['impact'],
+        'company_name': row['company_name']
     }
 
     prompt = create_reason_and_impact_prompt(fillers)
-    reasons = prompt_llm(client, prompt=prompt, role='').choices[0].message.content
+    reasons = prompt_llm(client, prompt=prompt, role=role).choices[0].message.content
     return reasons
-
-class DeferredFString:
-    def __init__(self, template):
-        self.template = template
-
-    def fill(self, **kwargs):
-        return self.template.format(**kwargs)
-
-
-def create_operational_countries_prompt(fillers: dict) -> str:
-    template = DeferredFString(
-        """
-        What are the countries in which the company {stock_name}, traded in the trade market {trading_market} operates?
-        Return the answer as a python list of countries, names only, no other text,
-        such as ['country1', 'country2',...].
-        Use CAMEO codes to identify the countries.
-        """
-    )
-    return template.fill(**fillers)
-
-
-def create_news_summary_prompt(fillers: dict) -> str:
-    template = DeferredFString(
-        """
-        I am providing you with the content of a news article. I need you to summarize it for me.
-        Just return the summarised text, no other text, as a string.
-        {article_content}
-        """
-    )
-    return template.fill(**fillers)
-
-def create_news_x_stock_impact_prompt(fillers: dict) -> str:
-    template = DeferredFString(
-        """
-        You are a financial expert in trading. You read the following news article:
-        "{news_content}"
-
-        Does this news article impact your {position} position on {company_name} stocks positively or negatively? Answer with one word.
-        """
-    )
-    return template.fill(**fillers)
-
-
-def extract_operational_countries(row, role, client) -> list:
-    """Extracts the operational countries of a company from the LLM model."""
-    fillers = {
-        'stock_name': row['company_name'],
-        'trading_market': row['trading_market'],
-        }
-    prompt = create_operational_countries_prompt(fillers)
-    countries = prompt_llm(client, prompt=prompt, role=role).choices[0].message.content
-    countries_list = ast.literal_eval(countries)
-    return countries_list
-
-def create_reason_and_impact_prompt(fillers: dict) -> str:
-    template = DeferredFString(
-        """
-        You are a financial expert in trading. You read the following news article: "{news_content}"
-        
-        You know that this news article impacts your {company_name} stocks in a {impact} way. Give three reasons why your stocks are impacted as such. Only return the three reasons as a numbered list.
-        """
-    )
-    return template.fill(**fillers)
