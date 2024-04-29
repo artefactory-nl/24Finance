@@ -1,6 +1,11 @@
 from openai import OpenAI
 import ast
-from lib.prompting.prompts import create_operational_countries_prompt, create_news_x_stock_impact_prompt, create_reason_and_impact_prompt
+from lib.prompting.prompts import (
+    create_operational_countries_prompt,
+    create_news_x_stock_impact_prompt,
+    create_reason_and_impact_prompt,
+    create_news_summary_prompt,
+)
 from lib.utils import extract_list_from_text
 
 def model_api_client() -> object:
@@ -66,6 +71,23 @@ def make_operational_countries(row:object, client:object) -> list:
         except:
             pass
     return []
+
+def make_summary_from_news(row: object, client: object) -> str:
+    """Summarize the news article.
+
+    Args:
+        news_content (str): The content of the news article.
+
+    Returns:
+        str: The summary of the news article.
+    """
+    role = "Financial expert in trading."
+    fillers={
+        'article_content': row['news_content'],
+    }
+    prompt = create_news_summary_prompt(fillers)
+    summary = prompt_llm(client, prompt=prompt, role=role).choices[0].message.content
+    return summary
 
 def make_impact_from_news(row: object, client: object) -> str:
     """ Return either "positive" or "negative" for impact.
