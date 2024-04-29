@@ -47,8 +47,7 @@ def make_operational_countries(row:object, client:object) -> list:
     """Extracts the operational countries of a company from the LLM model.
     
     Args:
-        row (dict): A dictionary containing the company name and trading market.
-        role (str): The role of the user.
+        row (dict): A dataframe row containing the company name and trading market.
         client (object): An instance of the OpenAI API client.
         
     Returns:
@@ -76,7 +75,8 @@ def make_summary_from_news(row: object, client: object) -> str:
     """Summarize the news article.
 
     Args:
-        news_content (str): The content of the news article.
+        row (object): A dataframe row containing the news content.
+        client (object): An instance of the OpenAI API client.
 
     Returns:
         str: The summary of the news article.
@@ -93,9 +93,8 @@ def make_impact_from_news(row: object, client: object) -> str:
     """ Return either "positive" or "negative" for impact.
     
     Args:
-        news_content (str): The content of the news article.
-        company_name (str): The name of the company.
-        stock_position (str): The position of the stock. This can be "long" or "short".
+        row (object): A dataframe row containing the news content, position, and company name.
+        client (object): An instance of the OpenAI API client.
 
     Returns:
         str: The impact of the news article on the company's stocks. This can be "positive" or "negative".
@@ -103,7 +102,7 @@ def make_impact_from_news(row: object, client: object) -> str:
     role = "Financial expert in trading."
     fillers={
         'news_content': row['news_content'],
-        'position': row['stock_position'],
+        'position': row['position'],
         'company_name': row['company_name']
     }
 
@@ -128,9 +127,8 @@ def make_reasons_from_news(row: object, client: object) -> str:
     The reasons should be returned as a numbered list.
 
     Args:
-        news_content (str): The content of the news article.
-        impact (str): The impact of the news article on the company's stocks. This can be "positive" or "negative".
-        company_name (str): The name of the company.
+        row (object): A dataframe row containing the news content, impact, and company name.
+        client (object): An instance of the OpenAI API client.
 
     Returns:
         str: The three reasons for the impact of the news article on the company's stocks.    
