@@ -1,18 +1,30 @@
-# Databricks notebook source
-from newspaper import article
-def extract_text_to_dataframe(df, url_column, output_column):
-    for index, row in df.iterrows():
+import json
+import pandas as pd
+from newspaper import Article
+
+def extract_text_to_dataframe(input_df:pd.DataFrame, url_column:str, output_column:str) -> pd.DataFrame:
+    """Extracts the text from the URL in the input dataframe and adds it to the output column.
+
+    Args:
+        input_df (pd.DataFrame): The input dataframe.
+        url_column (str): The name of the column containing the URLs.
+        output_column (str): The name of the column to store the extracted text.
+
+    Returns:
+        pd.DataFrame: The input dataframe with the extracted text.
+    """
+    for index, row in input_df.iterrows():
         url = row[url_column]
         try:
-            article = newspaper.Article(url)
+            article = Article(url)
             article.download()
             article.parse()
             text = article.text
-            df.at[index, output_column] = text
+            input_df.at[index, output_column] = text
         except Exception as e:
             print(f"Error processing URL {url}: {str(e)}")
-    df[output_column] = df[output_column].apply(lambda x: json.dumps(x))
-    return df
+    input_df[output_column] = input_df[output_column].apply(lambda x: json.dumps(x))
+    return input_df
 
 def extract_list_from_text(text:str):
     """Extracts a list from a string."""
