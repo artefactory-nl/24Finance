@@ -24,4 +24,4 @@ def extract_text_to_dataframe(input_df:pd.DataFrame, url_column:str, output_colu
         except:
             input_df.at[index, output_column] = ""
     input_df[output_column] = input_df[output_column].apply(lambda x: json.dumps(x)).fillna("")
-    return input_df
+    return input_df.loc[(input_df['news_content'] !='""')].reset_index(drop=True)
