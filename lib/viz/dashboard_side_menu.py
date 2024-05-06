@@ -36,9 +36,7 @@ for i, (company_name, group_df) in enumerate(grouped):
                     ]
                 .sort_values(by=['Date', 'priority', 'NumMentions'], ascending=[False, False, False])       
             )
-            sorted_news = pd.concat([sorted_news, additional_news]).sample(5)
-        else:
-            sorted_news = sorted_news.sample(5)
+            sorted_news = pd.concat([sorted_news, additional_news]).head(5)
         if sorted_news.empty:
             continue
         else:
@@ -49,7 +47,8 @@ for i, (company_name, group_df) in enumerate(grouped):
 
                 # Creating styled rectangle
                 st.write(f"# {group_df['company_name'].iloc[0]}")
-                st.write(f"{group_df['company_description'].iloc[0]}")
+                st.write(f"Industry: {group_df['industry'].iloc[0]}")
+                st.write(f"Description: \n\n{group_df['company_description'].iloc[0]}")
 
                 st.write("---")
 
@@ -72,7 +71,7 @@ for i, (company_name, group_df) in enumerate(grouped):
                             st.write(f"International relations: 😟")
                         else:
                             st.write(f"International relations: 😐")
-                    st.write(f"Countries: {group_df['operational_country'].iloc[0]}")
+                    # st.write(f"Countries: {group_df['operational_country'].iloc[0]}")
                     st.write(f"Number of Mentions: {row['NumMentions']}")
                     st.link_button("Read the article", row['ArticleUrl'], type="secondary")
                     with st.popover("News Summary"):

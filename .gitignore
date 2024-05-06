@@ -130,9 +130,9 @@ dmypy.json
 # VSCode project settings
 .vscode/
 
-# Secret files
-secrets/*
-!secrets/.gitkeep
+# # Secret files
+# secrets/*
+# !secrets/.gitkeep
 
 # Mac OS
 .DS_Store
