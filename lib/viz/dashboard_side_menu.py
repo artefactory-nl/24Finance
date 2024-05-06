@@ -3,7 +3,7 @@ from streamlit_option_menu import option_menu
 import pandas as pd
 from pathlib import Path
 
-df = pd.read_csv(Path(__file__).parent.parent.parent / 'data' / 'news_data_processed_3.csv')
+df = pd.read_csv(Path(__file__).parent.parent.parent / 'data' / 'news_data_processed.csv')
 df['priority'] = df['impact'].apply(lambda x: 0 if x == 'undetermined' else 1)
 grouped = df.groupby('company_name')
 companies = [key for key in df.groupby('company_name').indices.keys()]
