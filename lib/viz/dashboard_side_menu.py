@@ -4,6 +4,7 @@ import pandas as pd
 from pathlib import Path
 
 df = pd.read_csv(Path(__file__).parent.parent.parent / 'data' / 'news_data_processed.csv')
+df = df[~df['news_title'].str.contains('451|JavaScript')].drop_duplicates(subset=['company_name','news_title']).reset_index(drop=True)
 df['priority'] = df['impact'].apply(lambda x: 0 if x == 'undetermined' else 1)
 grouped = df.groupby('company_name')
 companies = [key for key in df.groupby('company_name').indices.keys()]
@@ -35,8 +36,9 @@ for i, (company_name, group_df) in enumerate(grouped):
                     ]
                 .sort_values(by=['Date', 'priority', 'NumMentions'], ascending=[False, False, False])       
             )
-            sorted_news = pd.concat([sorted_news, additional_news]).head(3)
-
+            sorted_news = pd.concat([sorted_news, additional_news]).sample(5)
+        else:
+            sorted_news = sorted_news.sample(5)
         if sorted_news.empty:
             continue
         else:
