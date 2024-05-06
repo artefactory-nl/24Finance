@@ -1,18 +1,24 @@
 from openai import OpenAI
-import ast
+import yaml
+from pathlib import Path
 from lib.prompting.prompts import (
     create_operational_countries_prompt,
     create_news_x_stock_impact_prompt,
     create_reason_and_impact_prompt,
     create_news_summary_prompt,
+    create_news_title_prompt,
+    create_description_of_instrument_prompt,
 )
 from lib.utils import extract_list_from_text
 
 def model_api_client() -> object:
     """Returns an instance of the OpenAI API client."""
+    secrets_file = Path(__file__).resolve().parent.parent.parent / 'secrets' / 'secrets.yaml'
+    with open(secrets_file) as f:
+        secrets = yaml.safe_load(f)
     return OpenAI(
-        api_key="KG6Dqaqx2APgaNYbqOCrRI5aBXitjbvO",
-        base_url="https://api.lemonfox.ai/v1",
+        api_key=secrets['lemonfox']['api_token'],
+        base_url=secrets['lemonfox']['api_url'],
     )
 
 
@@ -71,6 +77,24 @@ def make_operational_countries(row:object, client:object) -> list:
             pass
     return []
 
+def make_description_of_instrument(row:object, client:object) -> str:
+    """Extracts the description of a company from the LLM model.
+    
+    Args:
+        row (dict): A dataframe row containing the company name.
+        client (object): An instance of the OpenAI API client.
+        
+    Returns:
+        str: A description of the company.
+    """
+    role = "Financial expert in trading."
+    fillers = {
+        'stock_name': row['company_name'],
+        }
+    prompt = create_description_of_instrument_prompt(fillers)
+    description = prompt_llm(client, prompt=prompt, role=role).choices[0].message.content
+    return description
+
 def make_summary_from_news(row: object, client: object) -> str:
     """Summarize the news article.
 
@@ -81,11 +105,29 @@ def make_summary_from_news(row: object, client: object) -> str:
     Returns:
         str: The summary of the news article.
     """
-    role = "Financial expert in trading."
+    role = "Financial expert in trading with expertise as a journalist."
     fillers={
         'article_content': row['news_content'],
     }
     prompt = create_news_summary_prompt(fillers)
+    summary = prompt_llm(client, prompt=prompt, role=role).choices[0].message.content
+    return summary
+
+def make_title_from_news(row: object, client: object) -> str:
+    """Summarize the news article to produce a title.
+
+    Args:
+        row (object): A dataframe row containing the news content.
+        client (object): An instance of the OpenAI API client.
+
+    Returns:
+        str: The summary of the news article.
+    """
+    role = "Financial expert in trading with expertise as a journalist."
+    fillers={
+        'article_content': row['news_content'],
+    }
+    prompt = create_news_title_prompt(fillers)
     summary = prompt_llm(client, prompt=prompt, role=role).choices[0].message.content
     return summary
 

@@ -26,12 +26,33 @@ def create_operational_countries_prompt(fillers: dict) -> str:
     )
     return template.fill(**fillers)
 
+def create_description_of_instrument_prompt(fillers: dict) -> str:
+    """Creates a prompt for extracting the operational countries of a company."""
+    template = DeferredFString(
+        """
+        I want you to provide me with a description of the company {stock_name}.
+        Focus on its sector and industry in which it operates.
+        Return the answer as a string, no other text.
+        """
+    )
+    return template.fill(**fillers)
 
 def create_news_summary_prompt(fillers: dict) -> str:
     """Creates a prompt for summarizing a news article."""
     template = DeferredFString(
         """
         I am providing you with the content of a news article. I need you to summarize it for me.
+        Just return the summarised text, no other text, as a string.
+        {article_content}
+        """
+    )
+    return template.fill(**fillers)
+
+def create_news_title_prompt(fillers: dict) -> str:
+    """Creates a prompt for summarizing a news article."""
+    template = DeferredFString(
+        """
+        I am providing you with the content of a news article. I need you to provide me with a brief title that summarizes it.
         Just return the summarised text, no other text, as a string.
         {article_content}
         """
