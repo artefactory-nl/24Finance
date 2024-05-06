@@ -4,6 +4,9 @@ ifeq (false,$(USE_CONDA))
 	INSTALL_SCRIPT = install_with_venv.sh
 endif
 
+CONDA_ACTIVATE=source $$(conda info --base)/etc/profile.d/conda.sh ; conda activate ; conda activate
+CONDA_ENV=nestle-mroi
+
 .DEFAULT_GOAL = help
 
 # help: help					- Display this makefile's help information
@@ -32,3 +35,8 @@ serve_docs_locally:
 deploy_docs:
 	@mkdocs build
 	@mkdocs gh-deploy
+
+.PHONY: upload_wheel
+upload_wheel:
+	@$(CONDA_ACTIVATE) $(CONDA_ENV) && python setup.py sdist bdist_wheel
+	@$(CONDA_ACTIVATE) $(CONDA_ENV) && databricks fs cp  dist/24_finance-$$(cat VERSION)-py3-none-any.whl dbfs:/FileStore/jars/ --overwrite
