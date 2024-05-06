@@ -38,18 +38,17 @@ koen.rodewijk@artefact.com
 ## Solution Workflow
 24Finance uses 2 tables as input data:
 * Portfolio Data: table containing details about the investment portfolio of the user
-* News Data: table containing details about global events
+* News Data: table containing details about global events from [GDELT 1.0 Event Database](https://marketplace.databricks.com/details/01c3af8c-6dac-49ed-a4fc-6393d8887d5a/The-GDELT-Project_GDELT-10-Event-Database)
 
 These are the steps that are executed by the workflow:
-1. Understand in which countries each company, in which the user invested, operates
-2. Create a short description of each company
-3. Match the global news with the companies concerned by the portfolio
+1. Understanding in which countries each company, in which the user invested, operates
+2. Creating a short description of each company
+3. Matching the global news with the companies concerned by the portfolio
 4. Web scraping to extract the content of the news
-5. Summarise the news
-6. Extract news titles
-7. Understand the impact of each news on the portfolio investments
-8. Justify the impact of each with 3 reasons
-
+5. Summarising the news
+6. Extracting news titles
+7. Understanding the impact of news on portfolio investments
+8. Justifying the impact giving 3 reasons
 
 ![alt text](docs/assets/workflow.png "Solution Workflow")
 
@@ -78,8 +77,13 @@ To run the entire solution, follow the steps described here below:
 2. Clone the repository locally
     1. Install the conda environment with ```make install``` and activate it
 3. Run the notebook [24finance](notebooks/24finance.ipynb) inside Databricks
-4. Collect the csv that was created in the folder [data](data) and download it in the same location in the local repository
-6. run the command ```streamlit run lib/viz/dashboard_side_menu.py``` to visualise the results
 
-Otherwise, some precomputed results can be already visualized, as the folder [data](data) was populated with an output file. To do that, just run the command:
-```streamlit run lib/viz/dashboard_side_menu.py```.
+## Visualisation
+The application results can be visualised using Streamlit, running the following command:
+```streamlit run lib/viz/dashboard_side_menu.py```
+Some precomputed results can be already visualized, as the folder [data](data) was populated with an output file.
+
+The app was also deployed on Streamlit Cloud.
+Follow the link here below to visit the frontend:
+
+[Streamlit Cloud](https://artefactory-nl-artefact-hackat-libvizdashboard-side-menu-y9cywf.streamlit.app/)
