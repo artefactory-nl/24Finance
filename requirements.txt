@@ -5,3 +5,13 @@ newspaper3k==0.2.8
 lxml_html_clean==0.1.1
 streamlit==1.33.0
 streamlit_option_menu==0.3.12
+transformers
+torch
+scikit-learn
+sentence_transformers
+chromadb
+InstructorEmbedding
+beautifulsoup4
+langchain
+langchain-chroma
+langchain_community

@@ -1,6 +1,7 @@
 import json
 import pandas as pd
-from newspaper import Article
+from bs4 import BeautifulSoup
+import re 
 
 def extract_text_to_dataframe(input_df:pd.DataFrame, url_column:str, output_column:str) -> pd.DataFrame:
     """Extracts the text from the URL in the input dataframe and adds it to the output column.
@@ -31,3 +32,18 @@ def extract_list_from_text(text:str):
     start_index = text.find("[")
     end_index = text.find("]")+1
     return eval(text[start_index:end_index])
+
+
+def clean_scraped_text(text):
+    """Clean scraped text by removing html tags and unicode escape characters.
+    
+    Args:
+        text (str): Text to clean.
+        
+    Returns:
+        str: Cleaned text."""
+    text = BeautifulSoup(text, 'html.parser').get_text().encode('utf-8').decode('unicode_escape')
+    text = re.sub(r'\s+', ' ', text).strip()
+    text = re.sub(r'<.*?>', '', text)
+    text = re.sub(r'[^a-zA-Z\s\u2019\u2018\u201c\u201d\u2014]', '', text)
+    return text
