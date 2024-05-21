@@ -39,7 +39,7 @@ def extract_news_content_from_url_to_dataframe(input_df: pd.DataFrame, url_colum
     """
     urls = input_df[url_column].tolist()
     texts = Parallel(n_jobs=n_jobs)(
-        delayed(extract_text_from_url)(url) for url in tqdm(urls, desc="Extracting news content")
+        delayed(extract_text_from_url)(url) for url in urls
     )
     input_df
     input_df[output_column] = texts
@@ -57,10 +57,10 @@ def parse_rss_feed(url: str) -> List:
     """
     feed = feedparser.parse(url)
     return [{
-        "Title": entry.title,
-        "Link": entry.link,
-        "Published": entry.published,
-        "Summary": entry.summary,
+        "Title": entry.get("title",""),
+        "Link": entry.get("link",""),
+        "Published": entry.get("published",""),
+        "Summary": entry.get("summary",""),
         "Source": get_domain(url)
     } for entry in feed.entries]
 
@@ -74,7 +74,7 @@ def collect_rss_feed(rss_urls: List[str]) -> pd.DataFrame:
     Returns:
         pd.DataFrame: A DataFrame containing the feed entries.
     """
-    all_news_items = Parallel(n_jobs=-1)(delayed(parse_rss_feed)(url) for url in tqdm(rss_urls, desc="Collecting RSS feeds"))
+    all_news_items = Parallel(n_jobs=-1)(delayed(parse_rss_feed)(url) for url in rss_urls)
     return pd.DataFrame([item for sublist in all_news_items for item in sublist])
 
 def load_rss_urls_from_config(config_file_path: str) -> List[str]:
