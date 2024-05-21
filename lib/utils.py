@@ -2,6 +2,7 @@ import json
 import pandas as pd
 from bs4 import BeautifulSoup
 import re 
+from urllib.parse import urlparse
 
 def extract_text_to_dataframe(input_df:pd.DataFrame, url_column:str, output_column:str) -> pd.DataFrame:
     """Extracts the text from the URL in the input dataframe and adds it to the output column.
@@ -47,3 +48,16 @@ def clean_scraped_text(text):
     text = re.sub(r'<.*?>', '', text)
     text = re.sub(r'[^a-zA-Z\s\u2019\u2018\u201c\u201d\u2014]', '', text)
     return text
+
+def get_domain(url:str) -> str:
+    """Extracts the domain from a URL.
+
+    Args:
+        url (str): The URL to extract the domain from.
+
+    Returns:
+        str: The domain extracted from the URL.
+    """
+    parsed_url = urlparse(url)
+    domain = parsed_url.netloc
+    return domain
