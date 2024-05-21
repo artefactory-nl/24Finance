@@ -3,6 +3,7 @@ import json
 import yaml
 from typing import List
 import feedparser
+import tqdm
 from newspaper import Article
 from joblib import Parallel, delayed
 from lib.utils import clean_scraped_text, get_domain
@@ -36,9 +37,11 @@ def extract_news_content_from_url_to_dataframe(input_df: pd.DataFrame, url_colum
     Returns:
         pd.DataFrame: The input dataframe with the extracted text.
     """
+    urls = input_df[url_column].tolist()
     texts = Parallel(n_jobs=n_jobs)(
-        delayed(extract_text_from_url)(url) for url in input_df[url_column]
+        delayed(extract_text_from_url)(url) for url in tqdm(urls, desc="Extracting news content")
     )
+    input_df
     input_df[output_column] = texts
     input_df[output_column] = input_df[output_column].apply(lambda x: json.dumps(x)).fillna("").apply(clean_scraped_text)
     return input_df.loc[(input_df[output_column] != '""')].reset_index(drop=True)
@@ -71,7 +74,7 @@ def collect_rss_feed(rss_urls: List[str]) -> pd.DataFrame:
     Returns:
         pd.DataFrame: A DataFrame containing the feed entries.
     """
-    all_news_items = Parallel(n_jobs=-1)(delayed(parse_rss_feed)(url) for url in rss_urls)
+    all_news_items = Parallel(n_jobs=-1)(delayed(parse_rss_feed)(url) for url in tqdm(rss_urls, desc="Collecting RSS feeds"))
     return pd.DataFrame([item for sublist in all_news_items for item in sublist])
 
 def load_rss_urls_from_config(config_file_path: str) -> List[str]:
