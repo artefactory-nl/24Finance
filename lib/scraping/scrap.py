@@ -57,6 +57,7 @@ def parse_rss_feed(url: str) -> List:
     try:
         feed = feedparser.parse(url)
         domain = get_domain(url)
+        print(f"Processed {domain}.")
         return [{
             "Title": entry.get("title",""),
             "Link": entry.get("link",""),
