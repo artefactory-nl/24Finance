@@ -10,7 +10,6 @@ torchtorch==2.2.2
 scikit-learn
 sentence_transformers
 chromadb
-InstructorEmbedding
 beautifulsoup4
 langchain
 langchain-chroma
