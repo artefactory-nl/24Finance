@@ -3,7 +3,6 @@ import json
 import yaml
 from typing import List
 import feedparser
-import tqdm
 from newspaper import Article
 from joblib import Parallel, delayed
 from lib.utils import clean_scraped_text, get_domain
@@ -55,14 +54,18 @@ def parse_rss_feed(url: str) -> List:
     Returns:
         List: A list of dictionaries containing the feed entries.
     """
-    feed = feedparser.parse(url)
-    return [{
-        "Title": entry.get("title",""),
-        "Link": entry.get("link",""),
-        "Published": entry.get("published",""),
-        "Summary": entry.get("summary",""),
-        "Source": get_domain(url)
-    } for entry in feed.entries]
+    try:
+        feed = feedparser.parse(url)
+        domain = get_domain(url)
+        return [{
+            "Title": entry.get("title",""),
+            "Link": entry.get("link",""),
+            "Published": entry.get("published",""),
+            "Summary": entry.get("summary",""),
+            "Source": domain,
+        } for entry in feed.entries]
+    except:
+        return []
 
 
 def collect_rss_feed(rss_urls: List[str]) -> pd.DataFrame:
@@ -75,6 +78,7 @@ def collect_rss_feed(rss_urls: List[str]) -> pd.DataFrame:
         pd.DataFrame: A DataFrame containing the feed entries.
     """
     all_news_items = Parallel(n_jobs=-1)(delayed(parse_rss_feed)(url) for url in rss_urls)
+
     return pd.DataFrame([item for sublist in all_news_items for item in sublist])
 
 def load_rss_urls_from_config(config_file_path: str) -> List[str]:
