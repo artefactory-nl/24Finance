@@ -6,6 +6,10 @@ if [ "$answer" = "y" ]; then
   conda create -n artefact-hackathon-team-04 python=3.10 -y
   source $(conda info --base)/etc/profile.d/conda.sh
   conda activate artefact-hackathon-team-04
+  echo "Compiling requirements..."
+  pip install pip-tools
+  pip-compile requirements-developer.in --resolver backtracking
+  pip-compile requirements.in --resolver backtracking
   echo "Installing requirements..."
   pip install -r requirements-developer.txt
   python3 -m ipykernel install --user --name=artefact-hackathon-team-04
