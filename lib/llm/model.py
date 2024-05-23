@@ -17,8 +17,8 @@ def model_api_client() -> object:
     with open(secrets_file) as f:
         secrets = yaml.safe_load(f)
     return OpenAI(
-        api_key=secrets['lemonfox']['api_token'],
-        base_url=secrets['lemonfox']['api_url'],
+        api_key=secrets['dbrx']['api_token'],
+        base_url=secrets['dbrx']['api_url'],
     )
 
 
