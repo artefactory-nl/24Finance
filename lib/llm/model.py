@@ -11,14 +11,16 @@ from lib.prompting.prompts import (
 )
 from lib.utils import extract_list_from_text
 
-def model_api_client() -> object:
+def model_api_client(api_name) -> object:
     """Returns an instance of the OpenAI API client."""
     secrets_file = Path(__file__).resolve().parent.parent.parent / 'secrets' / 'secrets.yaml'
     with open(secrets_file) as f:
         secrets = yaml.safe_load(f)
+    if api_name not in secrets:
+        raise ValueError(f"API key for {api_name} not found in secrets file.")
     return OpenAI(
-        api_key=secrets['dbrx']['api_token'],
-        base_url=secrets['dbrx']['api_url'],
+        api_key=secrets[api_name]['api_token'],
+        base_url=secrets[api_name]['api_url'],
     )
 
 
