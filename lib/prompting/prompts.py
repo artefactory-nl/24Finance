@@ -30,9 +30,24 @@ def create_description_of_instrument_prompt(fillers: dict) -> str:
     """Creates a prompt for extracting the operational countries of a company."""
     template = DeferredFString(
         """
-        I want you to provide me with a description of the company {stock_name}.
-        Focus on its sector and industry in which it operates.
-        Return the answer as a string, no other text.
+            You are a financial expert in trading.
+
+            These are the details of the company I need you to focus on:
+            - name: {name},
+            - stock ticker: {ticker},
+            - sector: {sector},
+            - industry: {industry},
+            - headquarters location: {headquarters},
+
+            Provide me with a description of this company, following this structure:
+            - Company Overview and Business Model
+            - Industry and Market Conditions
+            - Management and Governance: 
+            - Innovation and Research & Development (R&D)
+            - what does it depend on in terms of costs and performance
+            - top 5 countries in which the company operates and why
+
+            Provide me with just the answer, no introduction or final summary.
         """
     )
     return template.fill(**fillers)

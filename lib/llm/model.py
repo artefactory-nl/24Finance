@@ -45,7 +45,7 @@ def prompt_llm(client: object, prompt: str = "", role: str = "", temperature: in
             {"role": "system", "content": f"{role}"},
             {"role": "user", "content": f"{prompt}"},
         ],
-        model="mixtral-chat",
+        model="dbrx",   #"mixtral-chat",
         temperature=temperature,
     )
 
@@ -89,7 +89,11 @@ def make_description_of_instrument(row:object, client:object) -> str:
     """
     role = "Financial expert in trading."
     fillers = {
-        'stock_name': row['company_name'],
+        'name': row['name'],
+        'ticker': row['ticker'],
+        'sector': row['sector'],
+        'industry': row['industry'],
+        'headquarters': row['headquarters'],
         }
     prompt = create_description_of_instrument_prompt(fillers)
     description = prompt_llm(client, prompt=prompt, role=role).choices[0].message.content
