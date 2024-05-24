@@ -61,3 +61,17 @@ def get_domain(url:str) -> str:
     parsed_url = urlparse(url)
     domain = parsed_url.netloc
     return domain
+
+def convert_to_cet_timezone(x:str) -> int:
+    """Convert a timestamp to Central European Time (CET).
+
+    Args:
+        x (str): The timestamp to convert.
+
+    Returns:
+        pd.Timestamp: The timestamp converted to CET.
+    """
+    if pd.to_datetime(x).tzinfo is None:
+        return int(pd.to_datetime(x).tz_localize("CET").tz_localize(None).timestamp())
+    else:
+        return int(pd.to_datetime(x).tz_convert("CET").tz_localize(None).timestamp())
