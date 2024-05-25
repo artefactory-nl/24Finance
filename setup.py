@@ -17,7 +17,7 @@ setup(
     install_requires=requirements,
     version=version,
     description="24 Finance",
-    url="https://github.com/artefactory-nl/artefact-hackathon-team-04.git",
+    url="https://github.com/artefactory-nl/24Finance.git",
     author="Artefact",
     license="MIT",
 )

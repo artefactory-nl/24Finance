@@ -1,19 +1,19 @@
 #!/bin/bash -e
 
-read -p "Want to install conda env named 'artefact-hackathon-team-04'? (y/n)" answer
+read -p "Want to install conda env named '24Finance'? (y/n)" answer
 if [ "$answer" = "y" ]; then
   echo "Installing conda env..."
-  conda create -n artefact-hackathon-team-04 python=3.10 -y
+  conda create -n 24Finance python=3.10 -y
   source $(conda info --base)/etc/profile.d/conda.sh
-  conda activate artefact-hackathon-team-04
+  conda activate 24Finance
   echo "Compiling requirements..."
   pip install pip-tools
   pip-compile requirements-developer.in --resolver backtracking
   pip-compile requirements.in --resolver backtracking
   echo "Installing requirements..."
   pip install -r requirements-developer.txt
-  python3 -m ipykernel install --user --name=artefact-hackathon-team-04
-  conda install -c conda-forge --name artefact-hackathon-team-04 notebook -y
+  python3 -m ipykernel install --user --name=24Finance
+  conda install -c conda-forge --name 24Finance notebook -y
   # echo "Installing pre-commit..."
   # make install_precommit
   echo "Installation complete!";

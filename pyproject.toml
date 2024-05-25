@@ -14,8 +14,8 @@ requires-python = ">=3.8"
 license = {file = "LICENSE"}
 
 [project.urls]
-"Homepage" = "https://github.com/artefactory-nl/artefact-hackathon-team-04"
-"Documentation" = "https://artefactory-nl.github.io/artefact-hackathon-team-04"
+"Homepage" = "https://github.com/artefactory-nl/24Finance"
+"Documentation" = "https://artefactory-nl.github.io/24Finance"
 
 [tool.setuptools]
 packages = ["lib"]
