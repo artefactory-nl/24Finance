@@ -91,7 +91,7 @@ def create_news_x_stock_impact_prompt(fillers: dict) -> str:
     )
     return template.fill(**fillers)
 
-def create_reason_and_impact_prompt(fillers: dict) -> str:
+def create_reasons_of_impact_on_stock_prompt(fillers: dict) -> str:
     """Creates a prompt for extracting reasons for the impact of a news article on a company's stocks."""
     template = DeferredFString(
         """
@@ -109,6 +109,51 @@ def create_reason_and_impact_prompt(fillers: dict) -> str:
             - description: {company_description}
 
         You know that this news article impacts your {company_name} stocks in a {impact} way.
+        Give a maximum of three reasons why your stocks are impacted as such.
+        Only return the three reasons as a numbered list.
+        """
+    )
+    return template.fill(**fillers)
+
+def create_news_x_commodity_impact_prompt(fillers: dict) -> str:
+    """Creates a prompt for extracting the impact of a news article on a company's stocks."""
+    template = DeferredFString(
+        """
+        You are a financial expert in trading.
+        I want to understand the impact of the news on the commodities.
+
+        The context is made of a news article you read and of the details of a commodity.
+        - You read the following news article:
+        "{news_content}"
+
+        - You depend on the following commodity and these are its details:
+            - name: {name},
+            - sector: {sector},
+            - industry: {industry},
+
+        Does this news article impact the commodity "{name}" positively or negatively?
+        Answer with one word: either "positive" or "negative".
+        """
+    )
+    return template.fill(**fillers)
+
+def create_reasons_of_impact_on_commodity_prompt(fillers: dict) -> str:
+    """Creates a prompt for extracting reasons for the impact of a news article on a company's stocks."""
+    template = DeferredFString(
+        """
+        You are a financial expert in trading.
+        I want to understand why certain news had an impact on the commodities.
+
+        The context is made of a news article you read and of the details of a company of which you own stocks.
+        - You read the following news article:
+        "{news_content}"
+
+        - You depend on the following commodity and these are its details:
+            - name: {name},
+            - sector: {sector},
+            - industry: {industry},
+
+        You know that this news article impacts the commodity "{name}" in a {impact} way.
         Give a maximum of three reasons why your stocks are impacted as such.
         Only return the three reasons as a numbered list.
         """

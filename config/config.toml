@@ -11,9 +11,14 @@ embdelling_model_name = "thenlper/gte-large"
 
 [data]
 location = "data"
-    [data.user_portfolio]
-    filename = "user_portfolio.csv"
-    location = "user_portfolio"
+    [data.user]
+    location = "user"
+        [data.user.user_portfolio]
+        filename = "user_portfolio.csv"
+        location = "user_portfolio"
+        [data.user.commodities]
+        filename = "commodities.csv"
+        location = "commodities"
 
     [data.vector_db]
     location = "vector_db"
@@ -36,7 +41,8 @@ location = "data"
     
     [data.dashboard]
     location = "dashboard"
-    filename = "user_dashboard.csv"
+    filename_portfolio = "portfolio_dashboard.csv"
+    filename_commodities = "commodities_dashboard.csv"
 
     [data.stocks]
     location = "stocks"

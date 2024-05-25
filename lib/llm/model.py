@@ -4,10 +4,12 @@ import yaml
 from pathlib import Path
 from lib.prompting.prompts import (
     create_news_x_stock_impact_prompt,
-    create_reason_and_impact_prompt,
+    create_reasons_of_impact_on_stock_prompt,
     create_news_summary_prompt,
     create_news_title_prompt,
     create_description_of_instrument_prompt,
+    create_news_x_commodity_impact_prompt,
+    create_reasons_of_impact_on_commodity_prompt,
 )
 
 def model_api_client(api_name) -> object:
@@ -72,6 +74,127 @@ def make_description_of_instrument(row:object, client:object) -> str:
     description = prompt_llm(client, prompt=prompt, role=role).choices[0].message.content
     return description
 
+def make_news_impact_on_portfolio(row: object, client: object) -> str:
+    """ Return either "positive" or "negative" for impact.
+    
+    Args:
+        row (object): A dataframe row containing the news content, position, and company name.
+        client (object): An instance of the OpenAI API client.
+
+    Returns:
+        str: The impact of the news article on the company's stocks. This can be "positive" or "negative".
+    """
+    role = "Financial expert in trading."
+    fillers={
+        'news_content': row['Content'],
+        'company_name': row['name'],
+        'company_ticker': row['ticker'],
+        'company_sector': row['sector'],
+        'company_industry': row['industry'],
+        'company_description': row['description'],
+    }
+
+    prompt = create_news_x_stock_impact_prompt(fillers)
+    trials = 0
+    correct = False
+    impact = "undetermined"
+    while (trials < 4) and not correct:
+        result = prompt_llm(client, prompt=prompt, role=role).choices[0].message.content
+        if re.search(r'positive', result, re.IGNORECASE):
+            correct = True
+            impact = "positive"
+        elif re.search(r'negative', result, re.IGNORECASE):
+            correct = True
+            impact = "negative"
+        trials = trials + 1
+    return impact
+
+def make_reasons_of_impact_on_portfolio(row: object, client: object) -> str:    
+    """ Return three reasons for the impact.
+
+    The reasons should be returned as a numbered list.
+
+    Args:
+        row (object): A dataframe row containing the news content, impact, and company name.
+        client (object): An instance of the OpenAI API client.
+
+    Returns:
+        str: The three reasons for the impact of the news article on the company's stocks.    
+    """
+    role = "Financial expert in trading."
+    fillers={
+        'news_content': row['Content'],
+        'company_name': row['name'],
+        'company_ticker': row['ticker'],
+        'company_sector': row['sector'],
+        'company_industry': row['industry'],
+        'company_description': row['description'],
+        'impact': row['impact'],
+    }
+
+    prompt = create_reasons_of_impact_on_stock_prompt(fillers)
+    reasons = prompt_llm(client, prompt=prompt, role=role).choices[0].message.content
+    return reasons
+
+def make_news_impact_on_commodities(row: object, client: object) -> str:
+    """ Return either "positive" or "negative" for impact.
+    
+    Args:
+        row (object): A dataframe row containing the news content, position, and company name.
+        client (object): An instance of the OpenAI API client.
+
+    Returns:
+        str: The impact of the news article on the company's stocks. This can be "positive" or "negative".
+    """
+    role = "Financial expert in trading."
+    fillers={
+        'news_content': row['Content'],
+        'name': row['name'],
+        'sector': row['sector'],
+        'ndustry': row['industry'],
+    }
+
+    prompt = create_news_x_commodity_impact_prompt(fillers)
+    trials = 0
+    correct = False
+    impact = "undetermined"
+    while (trials < 4) and not correct:
+        result = prompt_llm(client, prompt=prompt, role=role).choices[0].message.content
+        if re.search(r'positive', result, re.IGNORECASE):
+            correct = True
+            impact = "positive"
+        elif re.search(r'negative', result, re.IGNORECASE):
+            correct = True
+            impact = "negative"
+        trials = trials + 1
+    return impact
+
+def make_reasons_of_impact_on_commodities(row: object, client: object) -> str:    
+    """ Return three reasons for the impact.
+
+    The reasons should be returned as a numbered list.
+
+    Args:
+        row (object): A dataframe row containing the news content, impact, and company name.
+        client (object): An instance of the OpenAI API client.
+
+    Returns:
+        str: The three reasons for the impact of the news article on the company's stocks.    
+    """
+    role = "Financial expert in trading."
+    fillers={
+        'content': row['Content'],
+        'name': row['name'],
+        'sector': row['sector'],
+        'industry': row['industry'],
+        'impact': row['impact'],
+    }
+
+    prompt = create_reasons_of_impact_on_commodity_prompt(fillers)
+    reasons = prompt_llm(client, prompt=prompt, role=role).choices[0].message.content
+    return reasons
+
+
 def make_summary_from_news(row: object, client: object) -> str:
     """Summarize the news article.
 
@@ -109,65 +232,3 @@ def make_title_from_news(row: object, client: object) -> str:
     prompt = create_news_title_prompt(fillers)
     summary = prompt_llm(client, prompt=prompt, role=role).choices[0].message.content
     return summary
-
-def make_impact_from_news(row: object, client: object) -> str:
-    """ Return either "positive" or "negative" for impact.
-    
-    Args:
-        row (object): A dataframe row containing the news content, position, and company name.
-        client (object): An instance of the OpenAI API client.
-
-    Returns:
-        str: The impact of the news article on the company's stocks. This can be "positive" or "negative".
-    """
-    role = "Financial expert in trading."
-    fillers={
-        'news_content': row['Content'],
-        'company_name': row['name'],
-        'company_ticker': row['ticker'],
-        'company_sector': row['sector'],
-        'company_industry': row['industry'],
-        'company_description': row['description'],
-    }
-
-    prompt = create_news_x_stock_impact_prompt(fillers)
-    trials = 0
-    correct = False
-    impact = "undetermined"
-    while (trials < 4) and not correct:
-        result = prompt_llm(client, prompt=prompt, role=role).choices[0].message.content
-        if re.search(r'positive', result, re.IGNORECASE):
-            correct = True
-            impact = "positive"
-        elif re.search(r'negative', result, re.IGNORECASE):
-            correct = True
-            impact = "negative"
-        trials = trials + 1
-    return impact
-
-def make_reasons_from_news(row: object, client: object) -> str:    
-    """ Return three reasons for the impact.
-
-    The reasons should be returned as a numbered list.
-
-    Args:
-        row (object): A dataframe row containing the news content, impact, and company name.
-        client (object): An instance of the OpenAI API client.
-
-    Returns:
-        str: The three reasons for the impact of the news article on the company's stocks.    
-    """
-    role = "Financial expert in trading."
-    fillers={
-        'news_content': row['Content'],
-        'company_name': row['name'],
-        'company_ticker': row['ticker'],
-        'company_sector': row['sector'],
-        'company_industry': row['industry'],
-        'company_description': row['description'],
-        'impact': row['impact'],
-    }
-
-    prompt = create_reason_and_impact_prompt(fillers)
-    reasons = prompt_llm(client, prompt=prompt, role=role).choices[0].message.content
-    return reasons
