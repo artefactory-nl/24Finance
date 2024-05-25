@@ -24,7 +24,7 @@ def retrieve_from_news(row:object, chroma_client:object, reference_col:str, mode
     match_list = []
     results = chroma_client.as_retriever(
           search_kwargs={
-            "k": top_k_results,
+            "k": 100,
             "filter": filters,
             }
     ).get_relevant_documents(query)
@@ -32,8 +32,10 @@ def retrieve_from_news(row:object, chroma_client:object, reference_col:str, mode
             match = result.metadata
             match[reference_col] = row[reference_col]
             match['Content'] = result.page_content
-            match_list.append(match)
-    return match_list
+            match_list = add_unique_dict(match_list, match, ['ArticleID'])
+    if top_k_results > len(match_list):
+        return match_list
+    return match_list[:top_k_results]
 
 def make_stock_news_query(row: object) -> List:
     """Creates a query to retrieve news articles relevant to a company.
@@ -99,3 +101,21 @@ def create_commodities_news_query(fillers: dict) -> str:
         """
     )
     return template.fill(**fillers)
+
+def add_unique_dict(dict_list: List[Dict], new_dict: Dict, unique_fields:List[str]) -> List[Dict]:
+    """Adds a new dictionary to a list of dictionaries if it does not contain duplicate fields.
+
+    Args:
+        dict_list (List[Dict]): The list of dictionaries.
+        new_dict (Dict): The new dictionary to add.
+        unique_fields (List[str]): The fields that should be unique in the dictionary.
+
+    Returns:
+        List[Dict]: The updated list of dictionaries.
+    """
+    for existing_dict in dict_list:
+        if all(existing_dict.get(field) == new_dict.get(field) for field in unique_fields):
+            return dict_list
+
+    dict_list.append(new_dict)
+    return dict_list

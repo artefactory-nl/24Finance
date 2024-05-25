@@ -146,7 +146,7 @@ def create_reasons_of_impact_on_commodity_prompt(fillers: dict) -> str:
 
         The context is made of a news article you read and of the details of a company of which you own stocks.
         - You read the following news article:
-        "{news_content}"
+        "{content}"
 
         - You depend on the following commodity and these are its details:
             - name: {name},

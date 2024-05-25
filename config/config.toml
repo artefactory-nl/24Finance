@@ -1,5 +1,5 @@
 [general]
-UPDATE_USER_PORTFOLIO = false
+UPDATE_USER_PORTFOLIO = true
 READ_RSS = false        
 SCRAP_ARTICLES_CONTENT = false
 UPDATE_STOCKS_DB = true

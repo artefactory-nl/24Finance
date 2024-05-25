@@ -151,7 +151,7 @@ def make_news_impact_on_commodities(row: object, client: object) -> str:
         'news_content': row['Content'],
         'name': row['name'],
         'sector': row['sector'],
-        'ndustry': row['industry'],
+        'industry': row['industry'],
     }
 
     prompt = create_news_x_commodity_impact_prompt(fillers)

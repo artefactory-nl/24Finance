@@ -16,3 +16,4 @@ langchain-chroma
 langchain_community
 feedparser
 tqdm
+matplotlib
