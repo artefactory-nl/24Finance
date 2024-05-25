@@ -1,0 +1,106 @@
+rss_urls:
+# - https://rss.politico.com/morningtrade.xml
+# - http://feeds.marketwatch.com/marketwatch/pf
+# - http://feeds.marketwatch.com/marketwatch/realtimeheadlines
+# - http://feeds.marketwatch.com/marketwatch/bulletins
+# - https://rss.politico.com/economy.xml
+- http://rss.cnn.com/rss/money_markets.rss
+# - https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20910258
+- http://rss.cnn.com/rss/money_news_companies.rss
+- http://rss.cnn.com/rss/money_news_economy.rss
+# - https://www.investors.com/feed
+- http://rss.cnn.com/cnnmoneymorningbuzz
+# - http://feeds.marketwatch.com/marketwatch/marketpulse
+- http://rss.cnn.com/rss/money_topstories.rss
+# - https://economic-research.bnpparibas.com/RSS/en-US/Eco-Brief
+- http://rss.cnn.com/rss/money_news_international.rss
+# - http://feeds.marketwatch.com/marketwatch/StockstoWatch
+- https://fortune.com/feed
+# - http://www.oecd.org/industry/index.xml
+# - https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100646281
+- https://fortune.com/section/finance/feed
+# - https://economic-research.bnpparibas.com/RSS/en-US/Eco-Conjoncture
+# - https://feeds.content.dowjones.io/public/rss/mw_topstories
+# - http://rss.cnn.com/rss/money_mostpopular.rss
+# - http://rss.cnn.com/rss/money_video_business.rss
+# - https://economic-research.bnpparibas.com/RSS/en-US/Eco-Flash
+# - https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines
+# - https://economic-research.bnpparibas.com/RSS/en-US/Eco-Week
+# - https://www.investors.com/category/news/economy/feed
+# - https://www.investors.com/category/etfs-and-funds/personal-finance/feed
+- https://ec.europa.eu/eurostat/en/search?p_p_id=estatsearchportlet_WAR_estatsearchportlet&p_p_lifecycle=2&p_p_state=maximized&p_p_mode=view&p_p_resource_id=atom&_estatsearchportlet_WAR_estatsearchportlet_collection=dataset
+# - http://www.oecd.org/finance/index.xml
+# - https://economic-research.bnpparibas.com/RSS/en-US/Eco-Emerging
+# - https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10001147
+# - https://feeds.finance.yahoo.com/rss/2.0/headline
+# - http://www.oecd.org/investment/index.xml
+# - https://feeds.a.dj.com/rss/WSJcomUSBusiness.xml
+# - https://www.investors.com/category/etfs-and-funds/retirement/feed
+# - http://rss.cnn.com/rss/money_latest.rss
+# - http://feeds.marketwatch.com/marketwatch/topstories
+# - https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=19206666
+# - https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=15838459
+# - https://rss.politico.com/morningshift.xml
+# - https://www.marketbeat.com/feed
+# - https://www.oecd.org/economy/index.xml
+# - https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20409666
+# - https://www.huffpost.com/section/business/feed
+# - https://feeds.feedblitz.com/ThinkAdvisor
+# - http://rss.cnn.com/rss/money_pf.rss
+# - https://www.nasdaq.com/feed/rssoutbound?category=ETFs
+# - https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10001054
+# - https://ec.europa.eu/eurostat/en/search?p_p_id=estatsearchportlet_WAR_estatsearchportlet&p_p_lifecycle=2&p_p_state=maximized&p_p_mode=view&p_p_resource_id=atom&_estatsearchportlet_WAR_estatsearchportlet_theme=PER_ECOFIN&_estatsearchportlet_WAR_estatsearchportlet_collection=CAT_EURNEW
+# - https://www.wealthmanagement.com/taxonomy/term/60/feed/rss.xml
+# - http://rss.cnn.com/rss/money_media.rss
+- https://www.nasdaq.com/feed/rssoutbound?category=Stocks
+# - https://www.usnews.com/rss/money
+# - https://www.investors.com/category/market-trend/the-big-picture/feed
+- https://finance.yahoo.com/news/rssindex
+# - https://fortune.com/section/ledger/feed
+# - https://feeds.a.dj.com/rss/RSSMarketsMain.xml
+# - http://www.oecd.org/corporate/index.xml
+# - http://feeds.marketwatch.com/marketwatch/commentary
+# - https://economic-research.bnpparibas.com/RSS/en-US/Eco-Perspectives
+# - http://wealthmanagement.com/rss.xml
+- https://www.nasdaq.com/feed/rssoutbound?category=Markets
+# - https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=21324812
+# - http://feeds.marketwatch.com/marketwatch/newslettersandresearch
+# - https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=15839069
+# - https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=15839135
+# - https://feeds.content.dowjones.io/public/rss/mw_marketpulse
+# - https://rss.politico.com/morningmoney.xml
+# - https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000664
+# - https://www.nasdaq.com/feed/rssoutbound?category=IPOs
+# - https://www.nasdaq.com/feed/nasdaq-original/rss.xml
+# - https://www.usnews.com/blogrss/student-loan-ranger
+# - https://thehill.com/policy/finance/feed
+# - https://www.cbsnews.com/latest/rss/moneywatch
+# - https://www.huffpost.com/section/money/feed
+- https://www.reutersagency.com/feed/?taxonomy=best-sectors&post_type=best
+- https://www.reutersagency.com/feed/?best-topics=political-general&post_type=best
+- https://www.reutersagency.com/feed/?taxonomy=best-regions&post_type=best
+- https://www.reutersagency.com/feed/?best-customer-impacts=market-impact&post_type=best
+- https://www.reutersagency.com/feed/?taxonomy=best-customer-impacts&post_type=best
+- https://www.reutersagency.com/feed/?best-regions=north-america&post_type=best
+- https://www.reutersagency.com/feed/?best-regions=europe&post_type=best
+- https://www.reutersagency.com/feed/?best-regions=asia&post_type=best
+- https://www.reutersagency.com/feed/?best-topics=deals&post_type=best
+- https://www.reutersagency.com/feed/?best-topics=business-finance&post_type=best
+- https://www.reutersagency.com/feed/?best-topics=tech&post_type=best
+- https://www.reutersagency.com/feed/?best-topics=environment&post_type=best
+- https://rss.nytimes.com/services/xml/rss/nyt/World.xml
+- https://rss.nytimes.com/services/xml/rss/nyt/Europe.xml
+- https://rss.nytimes.com/services/xml/rss/nyt/Americas.xml
+- https://rss.nytimes.com/services/xml/rss/nyt/Business.xml
+- https://rss.nytimes.com/services/xml/rss/nyt/EnergyEnvironment.xml
+- https://rss.nytimes.com/services/xml/rss/nyt/SmallBusiness.xml
+- https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml
+- https://rss.nytimes.com/services/xml/rss/nyt/Dealbook.xml
+- https://rss.nytimes.com/services/xml/rss/nyt/MediaandAdvertising.xml
+- https://rss.nytimes.com/services/xml/rss/nyt/YourMoney.xml
+- https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml
+- https://rss.nytimes.com/services/xml/rss/nyt/AsiaPacific.xml
+- https://www.businesslive.co.za/rss/?publication=bl&section=markets
+- https://www.businesslive.co.za/rss/?publication=bl&section=politics
+- https://www.businesslive.co.za/rss/?publication=bl&section=economy
+- https://www.businesslive.co.za/rss/?publication=bl&section=investing

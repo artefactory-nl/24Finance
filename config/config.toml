@@ -1,2 +1,56 @@
-# Write config variables here
-# See https://toml.io/en/ for more information
+[general]
+UPDATE_USER_PORTFOLIO = true
+READ_RSS = false        
+SCRAP_ARTICLES_CONTENT = false
+UPDATE_STOCKS_DB = true
+UPDATE_NEWS_DB = true
+
+[models]
+llm_model_api = 'dbrx'
+embdelling_model_name = "thenlper/gte-large"
+
+[data]
+location = "data"
+    [data.user]
+    location = "user"
+        [data.user.user_portfolio]
+        filename = "user_portfolio.csv"
+        location = "user_portfolio"
+        [data.user.commodities]
+        filename = "commodities.csv"
+        location = "commodities"
+
+    [data.vector_db]
+    location = "vector_db"
+        [data.vector_db.news]
+        location = "news_vector_db"
+        news_collection_name = "news"
+
+        [data.vector_db.stocks]
+        location = "stocks_vector_db"
+        stocks_collection_name = "stocks"
+
+    [data.news]
+        [data.news.rss_feed]
+        location = "rss_feed"
+        filename = "rss_feed_df.csv"
+
+        [data.news.rss_feed_with_content]
+        location = "rss_feed_with_content"
+        filename = "rss_feed_with_content_df.csv"
+    
+    [data.dashboard]
+    location = "dashboard"
+    filename_portfolio = "portfolio_dashboard.csv"
+    filename_commodities = "commodities_dashboard.csv"
+
+    [data.stocks]
+    location = "stocks"
+    filename = "sp500_enriched.csv"
+
+[rag]
+    [rag.news]
+    news_date_threshold = 10
+    top_articles_k = 5
+
+    [rag.stock]
