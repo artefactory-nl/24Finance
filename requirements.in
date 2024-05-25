@@ -17,3 +17,4 @@ langchain_community
 feedparser
 tqdm
 matplotlib
+plotly
