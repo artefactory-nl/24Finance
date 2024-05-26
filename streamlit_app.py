@@ -1,12 +1,10 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
+from lib.viz import home, overview, portfolio, commodities
 
 st.set_page_config(
         page_title="📈 24ꜰɪɴᴀɴᴄᴇ",
 )
-
-from lib.viz import home, overview, portfolio, commodities
-
 def main():
     with st.sidebar:        
         app = option_menu(
