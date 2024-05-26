@@ -1,12 +1,5 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
-# import os
-# import sys
-# import tomli
-
-# cwd = os.getcwd()
-# if cwd not in sys.path:
-#     sys.path.append(cwd)
 
 st.set_page_config(
         page_title="📈 24ꜰɪɴᴀɴᴄᴇ",
