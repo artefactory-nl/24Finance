@@ -1,0 +1,13 @@
+version: '0.1'
+
+services:
+  myapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: 24finance:latest
+    container_name: 24finance
+    volumes:
+      - .:/app
+    ports:
+      - "8501:8501"
