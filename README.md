@@ -86,4 +86,4 @@ Some precomputed results can be already visualized, as the folder [data](data) w
 The app was also deployed on Streamlit Cloud.
 Follow the link here below to visit the frontend:
 
-[Streamlit Cloud](https://artefactory-nl-artefact-hackat-libvizdashboard-side-menu-y9cywf.streamlit.app/)
+[Streamlit Cloud](https://24finance-icodlqc7umqrqxpslqqxdu.streamlit.app/)
