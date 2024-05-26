@@ -1,9 +1,9 @@
 [general]
-UPDATE_USER_PORTFOLIO = true
+UPDATE_USER_PORTFOLIO = false
 READ_RSS = false        
 SCRAP_ARTICLES_CONTENT = false
-UPDATE_STOCKS_DB = true
-UPDATE_NEWS_DB = true
+UPDATE_STOCKS_DB = false
+UPDATE_NEWS_DB = false
 
 [models]
 llm_model_api = 'dbrx'

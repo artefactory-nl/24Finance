@@ -1,5 +1,5 @@
 # requirements
-*.txt
+*developer.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
