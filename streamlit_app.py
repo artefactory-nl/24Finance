@@ -146,8 +146,6 @@ def portfolio_app():
             continue
         else: 
             with st.container(border=True):
-                # Alternate between the two colors
-                # Creating styled rectangle
                 st.write(f"# {group_df['name'].iloc[0]}")
                 st.write(f"Sector: {group_df['sector'].iloc[0]}")
                 st.write(f"Industry: {group_df['industry'].iloc[0]}")
@@ -157,26 +155,14 @@ def portfolio_app():
 
                 st.write("---")
 
-                # Displaying top 10 news
                 for idx, row in group_df.iterrows():
                     st.write(f"### {row['Published']}   -   {row['news_title']}")
-                    impact, sentiment = st.columns(2)
-                    with impact:
-                        if row['impact'] == 'positive':
-                            st.write(f"Impact: 🟩")
-                        elif row['impact'] == 'negative':
-                            st.write(f"Impact: 🟥")
-                        else:
-                            st.write(f"Impact: 🤔")
-
-                    with sentiment:
-                        if row['impact'] == 'positive':
-                            st.write(f"Impact: 🟩")
-                        elif row['impact'] == 'negative':
-                            st.write(f"Impact: 🟥")
-                        else:
-                            st.write(f"Impact: 🤔")
-                    # st.write(f"Countries: {group_df['operational_country'].iloc[0]}")
+                    if row['impact'] == 'positive':
+                        st.write(f"Impact: 🟩")
+                    elif row['impact'] == 'negative':
+                        st.write(f"Impact: 🟥")
+                    else:
+                        st.write(f"Impact: 🤔")
                     st.link_button("Read the article", row['Link'], type="secondary")
                     with st.expander("News Summary"):
                         st.write(row['news_summary'])
@@ -202,34 +188,21 @@ def commodities_app():
             continue
         else: 
             with st.container(border=True):
-                # Alternate between the two colors
-                # Creating styled rectangle
                 st.write(f"# {group_df['name'].iloc[0]}")
                 st.write(f"Sector: {group_df['sector'].iloc[0]}")
                 st.write(f"Industry: {group_df['industry'].iloc[0]}")
 
                 st.write("---")
 
-                # Displaying top 10 news
                 for idx, row in group_df.iterrows():
                     st.write(f"### {row['Published']}   -   {row['news_title']}")
-                    impact, sentiment = st.columns(2)
-                    with impact:
-                        if row['impact'] == 'positive':
-                            st.write(f"Impact: 🟩")
-                        elif row['impact'] == 'negative':
-                            st.write(f"Impact: 🟥")
-                        else:
-                            st.write(f"Impact: 🤔")
+                    if row['impact'] == 'positive':
+                        st.write(f"Impact: 🟩")
+                    elif row['impact'] == 'negative':
+                        st.write(f"Impact: 🟥")
+                    else:
+                        st.write(f"Impact: 🤔")
 
-                    with sentiment:
-                        if row['impact'] == 'positive':
-                            st.write(f"Impact: 🟩")
-                        elif row['impact'] == 'negative':
-                            st.write(f"Impact: 🟥")
-                        else:
-                            st.write(f"Impact: 🤔")
-                    # st.write(f"Countries: {group_df['operational_country'].iloc[0]}")
                     st.link_button("Read the article", row['Link'], type="secondary")
                     with st.expander("News Summary"):
                         st.write(row['news_summary'])
