@@ -2,30 +2,14 @@ name,sector,industry
 Crude Oil,Energy,Oil & Gas
 Natural Gas,Energy,Oil & Gas
 Gasoline,Energy,Oil & Gas
-Heating Oil,Energy,Oil & Gas
 Gold,Metals,Precious Metals
-Silver,Metals,Precious Metals
-Platinum,Metals,Precious Metals
-Palladium,Metals,Precious Metals
 Copper,Metals,Base Metals
 Aluminum,Metals,Base Metals
-Nickel,Metals,Base Metals
-Zinc,Metals,Base Metals
-Iron Ore,Metals,Base Metals
 Wheat,Agriculture,Grains
 Corn,Agriculture,Grains
 Soybeans,Agriculture,Grains
 Rice,Agriculture,Grains
 Coffee,Agriculture,Softs
-Sugar,Agriculture,Softs
-Cocoa,Agriculture,Softs
-Cotton,Agriculture,Softs
-Orange Juice,Agriculture,Softs
-Lumber,Agriculture,Softs
 Lean Hogs,Agriculture,Livestock
 Live Cattle,Agriculture,Livestock
-Feeder Cattle,Agriculture,Livestock
 Milk,Agriculture,Livestock
-Rubber,Agriculture,Industrial
-Wool,Agriculture,Industrial
-Ethanol,Energy,Biofuels
