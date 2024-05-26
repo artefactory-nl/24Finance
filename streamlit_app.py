@@ -1,11 +1,8 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
     
-
-import pandas as pd
-import tomli
-import sys
 import os
+import pandas as pd
 from typing import Tuple
 import plotly.express as px
 
@@ -81,10 +78,6 @@ def read_portfolio_data(portfolio_path:str) -> Tuple[pd.DataFrame, pd.core.group
     grouped = df.groupby('name')
     return df, grouped
 def home_app():
-
-    cwd = os.getcwd()
-    if cwd not in sys.path:
-        sys.path.append(cwd)
     
     with st.container(border=True):
         st.write("""
@@ -93,7 +86,7 @@ def home_app():
         st.write("""
                 24ꜰɪɴᴀɴᴄᴇ, your ultimate companion for staying ahead of global events and understanding their impact on your investments. Our cutting-edge tool leverages the power of GenAI and advanced financial models to provide you with insightful analysis and actionable intelligence. Whether you're tracking your investment portfolio or monitoring commodities, 24ꜰɪɴᴀɴᴄᴇ ensures you stay informed and make well-founded decisions.
             """)
-        st.image(os.path.join(cwd, "data", "logo","logo.png"), use_column_width=True)
+        st.image(os.path.join("data", "logo","logo.png"), use_column_width=True)
     with st.container(border=True):
         st.write("""
                 ## Explore the Features of 24ꜰɪɴᴀɴᴄᴇ
@@ -117,14 +110,6 @@ def home_app():
         """)
 def overview_app():
 
-    cwd = os.getcwd()
-    if cwd not in sys.path:
-        sys.path.append(cwd)
-
-
-    with open(os.path.join(cwd, "config", "config.toml"), "rb") as f:
-        config = tomli.load(f)
-
     st.write("# 24ꜰɪɴᴀɴᴄᴇ")
     colors = ['#A3D8FF', '#FFEC9E']
     color = colors[0]
@@ -135,26 +120,18 @@ def overview_app():
 
     with st.container(border=True):
         st.write("## Stocks")
-        portfolio_path = os.path.join(cwd, config["data"]["location"], config["data"]['dashboard']["location"],config["data"]['dashboard']["filename_portfolio"])
+        portfolio_path = os.path.join("data",'dashboard',"portfolio_dashboard.csv")
         portfolio_df, _ = read_portfolio_data(portfolio_path)
         plot_pie_chart_by_sector(portfolio_df)
 
     with st.container(border=True):
         st.write("## Commodities")
-        commodities_path = os.path.join(cwd, config["data"]["location"], config["data"]['dashboard']["location"],config["data"]['dashboard']["filename_commodities"])
+        commodities_path = os.path.join("data",'dashboard',"commodities_dashboard.csv")
         commodities_df, _ = read_commodities_data(commodities_path)
         plot_pie_chart_by_sector(commodities_df)
 def portfolio_app():
-
-    cwd = os.getcwd()
-    if cwd not in sys.path:
-        sys.path.append(cwd)
-
-    with open(os.path.join(cwd, "config", "config.toml"), "rb") as f:
-        config = tomli.load(f)
-
     st.write("# 24ꜰɪɴᴀɴᴄᴇ")
-    portfolio_path = os.path.join(cwd, config["data"]["location"], config["data"]['dashboard']["location"],config["data"]['dashboard']["filename_portfolio"])
+    portfolio_path = os.path.join("data",'dashboard',"portfolio_dashboard.csv")
 
     df, grouped = read_portfolio_data(portfolio_path)
     companies = [key for key in df.groupby('name').indices.keys()]
@@ -209,17 +186,8 @@ def portfolio_app():
                         st.write("---")
 def commodities_app():
 
-    cwd = os.getcwd()
-    if cwd not in sys.path:
-        sys.path.append(cwd)
-
-
-    with open(os.path.join(cwd, "config", "config.toml"), "rb") as f:
-        config = tomli.load(f)
-
     st.write("# 24ꜰɪɴᴀɴᴄᴇ")
-    commodities_path = os.path.join(cwd, config["data"]["location"], config["data"]['dashboard']["location"],config["data"]['dashboard']["filename_commodities"])
-
+    commodities_path = os.path.join("data",'dashboard',"commodities_dashboard.csv")
     df, grouped = read_commodities_data(commodities_path)
     commodities = [key for key in df.groupby('name').indices.keys()]
 
