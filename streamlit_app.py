@@ -78,10 +78,10 @@ def read_portfolio_data(portfolio_path:str) -> Tuple[pd.DataFrame, pd.core.group
     grouped = df.groupby('name')
     return df, grouped
 def home_app():
-    
+    st.write("# 24ꜰɪɴᴀɴᴄᴇ")
     with st.container(border=True):
         st.write("""
-                # Welcome to 24ꜰɪɴᴀɴᴄᴇ
+                # Welcome
         """)
         st.write("""
                 24ꜰɪɴᴀɴᴄᴇ, your ultimate companion for staying ahead of global events and understanding their impact on your investments. Our cutting-edge tool leverages the power of GenAI and advanced financial models to provide you with insightful analysis and actionable intelligence. Whether you're tracking your investment portfolio or monitoring commodities, 24ꜰɪɴᴀɴᴄᴇ ensures you stay informed and make well-founded decisions.
@@ -91,14 +91,15 @@ def home_app():
         st.write("""
                 ## Explore the Features of 24ꜰɪɴᴀɴᴄᴇ
 
-                ### Overview
-                Dive into the Overview page to get a comprehensive understanding of how recent news affects the sectors tied to your assets. This section provides a high-level view of the latest developments, allowing you to quickly assess the overall impact on both your investment portfolio and commodities of interest.
-
                 ### Portfolio
                 In the Portfolio section, we break down the news and its financial implications for each stock in your portfolio. Here, you'll find detailed analyses of the most pertinent news articles related to your investments. Each summary comes with a financial impact assessment, and you can delve deeper by reading the full articles to understand the nuances influencing your stocks.
 
                 ### Commodities
                 The Commodities page offers a focused look at the latest news affecting various commodities. Similar to the Portfolio section, you'll see an analysis of the most significant news stories, complete with financial impact insights. This allows you to keep a pulse on the commodities market and understand the factors driving price movements.
+                
+                ### Summary
+                Dive into the Summary page to get a comprehensive understanding of how recent news affects the sectors tied to your assets. This section provides a high-level view of the latest developments, allowing you to quickly assess the overall impact on both your investment portfolio and commodities of interest.
+
         """)
     with st.container(border=True):
         st.write("""
@@ -116,7 +117,7 @@ def overview_app():
     st.markdown(f'<hr style="border-top: 3px solid {color};">', unsafe_allow_html=True)
 
     # Creating styled rectangle
-    st.write(f"# Overview - 24ꜰɪɴᴀɴᴄᴇ Analysis")
+    st.write(f"# Summary - 24ꜰɪɴᴀɴᴄᴇ Analysis")
 
     with st.container(border=True):
         st.write("## Stocks")
@@ -214,13 +215,13 @@ def main():
     with st.sidebar:        
         app = option_menu(
             menu_title='',
-            options=['Home','Overview','Portfolio','Commodities'],
+            options=['Home','Portfolio','Commodities', 'Summary'],
             default_index=0,            
             )
 
     if app == "Home":
         home_app()
-    if app == "Overview":
+    if app == "Summary":
         overview_app()
     if app ==  "Portfolio":
         portfolio_app()
